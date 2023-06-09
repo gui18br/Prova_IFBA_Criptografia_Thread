@@ -17,8 +17,7 @@ public class MinhaThread implements Runnable {
 	private SecretKeySpec encryptionKey;
 
 	CrypterKey crypter = new CrypterKey();
-	
-	
+
 	DecimalFormat df = new DecimalFormat("#,##0.0");
 
     private ArrayList<MotorStatus> statusMotores;
@@ -35,8 +34,9 @@ public class MinhaThread implements Runnable {
      * O método void run() executa um loop while enquanto a variavel 'isRunning' for true. Dentro do loop
      * é gerada a temperatura aleatoria pela chamada do metodo 'gerarTemperatura(), essa mesma tem-
      * peratura é passada como parametro para a instanciação do motor juntamente com o RPM padrão.
-     * Após isso é chamado o sensor para analisar o motor atual, e essa o resultado dessa analise é passa-
-     * do para dentro da lista statusMotores. Tudo isso ocorre durante intervalos de 2 segundos.
+     * Após isso é realizado dentro do 'try catch' o sensoriamento do motor  e tambem e realizada a 
+     * criptografia dos dados sensoriados. Esses dados sensoriados criptografados sao armazenados na lista 
+     * 'statusMotores'.
      */   
 
     public void run() {
@@ -53,19 +53,25 @@ public class MinhaThread implements Runnable {
             } catch (Exception e) {
             	e.printStackTrace();
             }
+            
+            /*
+             * metodo do cenario 2 que sofre a diminuicao da complexidade para zero, quando o mesmo
+             * e passado para dentro da thread, ja que nao a necessidade da utilizacao da complexidade
+             * O (n ^2), pois todos os dados necessarios se fazem presente dentro da thread. O alerta 
+             * e acionado em conjunto com a temperatura lida no momento em que a thread e chamada.
+             */
            
             
             if(temperatura >= 110) {
-            	System.out.println("\n ");
-				System.out.println("====================");;
+				System.out.println("\n====================");;
 	    		System.out.println("||   ALERTA de dano ao motor!  ||");
 	    		System.out.println("====================");
 	    		
 				System.out.println("O motor esta com a temperatura acima do normal."); 
-				System.out.println("Dano de "+ df.format(motor.getDanoMotor()) + "% consideravel no motor \n");
+				System.out.print("Dano de "+ df.format(motor.getDanoMotor()) + "% consideravel no motor \n");
 				
 				System.out.println("=================================");
-				System.out.println("INFORMACOES: \n");
+				System.out.println("INFORMACOES: ");
 
 		}
             

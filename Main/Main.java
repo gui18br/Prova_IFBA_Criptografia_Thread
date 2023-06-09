@@ -24,44 +24,23 @@ public class Main {
 		
 		Thread thread = new Thread(minhaThread);
         
-        extractor.extractAudioKeyBytes(inputFile);
-        ArrayList<byte[]> audioKeys = extractor.getKeys();
+        extractor.extractAudioBytes(inputFile);
+        ArrayList<byte[]> audioBytes = extractor.getBytes();
 
-        SecretKeySpec encryptionKey = generator.generateKeysbyBytes(audioKeys);
-        
-        System.out.println(encryptionKey);
+        SecretKeySpec encryptionKey = generator.generateKeys(audioBytes);
         minhaThread.setEncryptionKey(encryptionKey);
-        
-        
-        //EXEMPLO
-        
-        try {
-        	String data = "Dados a serem encriptados";
-        	System.out.println(data);
-        	String encryptedData = crypter.encryptData(data, encryptionKey);
-        	System.out.println("Dados encriptados: " + encryptedData);
-        	
-        	String decryptedData = crypter.decryptData(encryptedData, encryptionKey);
-        	System.out.println("Dados desencriptados: " + decryptedData);
-        }catch (Exception e) {
-        	e.printStackTrace();
-        }
-        
-        
-
-        
-        //MAIN PT.2
-        
+      
+        //MAIN PT.2  
         
         thread.start();
 		int id = 0;
 		int contador = 0;
 		
 		/*
-		 * Dentro do loop 'do while' é requisitado o status do motor atual que está sendo trabalhado na
-		 * thread e o mesmo é mostrado no console e passado para uma nova lista 'status', para que
-		 * por essa lista possam ser realizadas as operações posteriores de complexidade algoritmica.
-		 * Tudo isso é realizado durante pauses de 2 segundos.
+		 * Dentro do loop 'do while' e realizada a leitura das threads, mas antes da leitura das mesmas
+		 * e realizado a descriptografia do conteudo atraves da chamada do metodo 'decryptData()', juntamente
+		 * com a chave de criptografia que e passada com o conteudo. Apos isso os dados decriptografados sao
+		 * mostrados no console e passado para a lista 'status' para serem utilizados posteriormente.
 		 */
 		do {
 			contador++;
@@ -105,9 +84,6 @@ public class Main {
 		for (int i = 0; i < status.size(); i++) {
 			System.out.println((1 + i) + ": " + status.get(i).getStatus());
 			
-		}	
-        
-        
-      
+		}	 
     }
 }
